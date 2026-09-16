@@ -24,10 +24,22 @@ from .const import (
     DOMAIN,
 )
 
+# Plain int+Range fields get auto-rendered as a slider that only shows its
+# value while being dragged. A "box" NumberSelector is a normal numeric
+# input instead, so the current value is always visible and can be typed.
+PORT_SELECTOR = selector.NumberSelector(
+    selector.NumberSelectorConfig(min=1, max=65535, step=1, mode=selector.NumberSelectorMode.BOX)
+)
+TIMEOUT_SELECTOR = selector.NumberSelector(
+    selector.NumberSelectorConfig(
+        min=2, max=120, step=1, mode=selector.NumberSelectorMode.BOX, unit_of_measurement="s"
+    )
+)
+
 STEP_USER_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_PORT, default=DEFAULT_PORT): vol.All(vol.Coerce(int), vol.Range(min=1, max=65535)),
-        vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): vol.All(vol.Coerce(int), vol.Range(min=2, max=120)),
+        vol.Required(CONF_PORT, default=DEFAULT_PORT): PORT_SELECTOR,
+        vol.Required(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): TIMEOUT_SELECTOR,
         vol.Required(CONF_AUTO_ADD, default=DEFAULT_AUTO_ADD): bool,
     }
 )
@@ -56,6 +68,7 @@ class StatusViewConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         errors: dict[str, str] = {}
         if user_input is not None:
+            user_input[CONF_PORT] = int(user_input[CONF_PORT])
             if await self.hass.async_add_executor_job(_port_is_free, user_input[CONF_PORT]):
                 return self.async_create_entry(title="EdingCNC StatusView", data=user_input)
             errors["base"] = "port_in_use"
@@ -88,7 +101,7 @@ class StatusViewOptionsFlow(config_entries.OptionsFlow):
             {
                 vol.Required(
                     CONF_TIMEOUT, default=self._current(CONF_TIMEOUT, DEFAULT_TIMEOUT)
-                ): vol.All(vol.Coerce(int), vol.Range(min=2, max=120)),
+                ): TIMEOUT_SELECTOR,
                 vol.Required(
                     CONF_AUTO_ADD, default=self._current(CONF_AUTO_ADD, DEFAULT_AUTO_ADD)
                 ): bool,

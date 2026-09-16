@@ -38,8 +38,8 @@ def _option(entry: ConfigEntry, key: str, default):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up StatusView from a config entry."""
-    port = entry.data[CONF_PORT]
-    timeout = _option(entry, CONF_TIMEOUT, DEFAULT_TIMEOUT)
+    port = int(entry.data[CONF_PORT])
+    timeout = float(_option(entry, CONF_TIMEOUT, DEFAULT_TIMEOUT))
     auto_add = _option(entry, CONF_AUTO_ADD, DEFAULT_AUTO_ADD)
     manual_ips = set(_option(entry, CONF_MANUAL_DEVICES, []))
 
@@ -74,7 +74,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def _async_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Apply options changes (auto-add toggle, manually added IPs) live."""
     hub: StatusViewHub = hass.data[DOMAIN][entry.entry_id]
-    hub.timeout = _option(entry, CONF_TIMEOUT, DEFAULT_TIMEOUT)
+    hub.timeout = float(_option(entry, CONF_TIMEOUT, DEFAULT_TIMEOUT))
     hub.async_apply_options(
         _option(entry, CONF_AUTO_ADD, DEFAULT_AUTO_ADD),
         set(_option(entry, CONF_MANUAL_DEVICES, [])),

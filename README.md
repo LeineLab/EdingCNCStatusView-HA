@@ -4,12 +4,6 @@ Home Assistant integration that emulates an [EdingCNC StatusView](https://www.ed
 LED status display. The EdingCNC control software talks UDP directly to
 Home Assistant — no MQTT broker, no bridge script, no extra hop.
 
-The protocol was reverse engineered from a Wireshark capture of the real
-hardware (`StatusView.pcapng`, in the repo root) talking to the EdingCNC
-software. `status.py` is the original MQTT-based bridge that came out of
-that reverse-engineering effort; `custom_components/statusview/` is the
-native Home Assistant integration built from the same protocol.
-
 ## Installation
 
 1. Copy `custom_components/statusview` into your Home Assistant
