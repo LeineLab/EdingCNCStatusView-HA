@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EdingCNC StatusView",
+        "description": "Home Assistant emulates an EdingCNC StatusView LED display and listens for the CNC controller directly over UDP. Point the StatusView IP setting in your EdingCNC software at this Home Assistant instance.",
+        "data": {
+          "port": "UDP port",
+          "timeout": "Availability timeout (seconds)",
+          "auto_add": "Automatically add new devices"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "A StatusView listener is already configured."
+    },
+    "error": {
+      "port_in_use": "That UDP port is already in use on this system."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "StatusView options",
+        "menu_options": {
+          "settings": "General settings",
+          "add_device": "Add a device manually"
+        }
+      },
+      "settings": {
+        "title": "General settings",
+        "data": {
+          "timeout": "Availability timeout (seconds)",
+          "auto_add": "Automatically add new devices"
+        },
+        "data_description": {
+          "auto_add": "When off, only manually added IP addresses get entities - traffic from unknown IPs is still answered correctly, just not exposed."
+        }
+      },
+      "add_device": {
+        "title": "Add a device manually",
+        "description": "Enter the IP address of a CNC controller to add it, even before it has sent any traffic (its entities stay unavailable until it does). Seen but not yet added: {pending}",
+        "data": {
+          "ip_address": "IP address"
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "That is not a valid IP address."
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EdingCNC StatusView",
+        "description": "Home Assistant emuliert ein EdingCNC StatusView LED-Display und wartet direkt per UDP auf die CNC-Steuerung. Trage die IP-Adresse dieser Home-Assistant-Instanz als StatusView-Adresse in der EdingCNC-Software ein.",
+        "data": {
+          "port": "UDP-Port",
+          "timeout": "Timeout bis \"nicht verfügbar\" (Sekunden)",
+          "auto_add": "Neue Geräte automatisch hinzufügen"
+        }
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Es ist bereits ein StatusView-Listener eingerichtet."
+    },
+    "error": {
+      "port_in_use": "Dieser UDP-Port wird bereits von einem anderen Prozess verwendet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "StatusView-Optionen",
+        "menu_options": {
+          "settings": "Allgemeine Einstellungen",
+          "add_device": "Gerät manuell hinzufügen"
+        }
+      },
+      "settings": {
+        "title": "Allgemeine Einstellungen",
+        "data": {
+          "timeout": "Timeout bis \"nicht verfügbar\" (Sekunden)",
+          "auto_add": "Neue Geräte automatisch hinzufügen"
+        },
+        "data_description": {
+          "auto_add": "Wenn deaktiviert, bekommen nur manuell hinzugefügte IP-Adressen Entities - Anfragen von unbekannten IPs werden weiterhin korrekt beantwortet, aber nicht als Gerät angelegt."
+        }
+      },
+      "add_device": {
+        "title": "Gerät manuell hinzufügen",
+        "description": "IP-Adresse einer CNC-Steuerung eintragen, um sie hinzuzufügen - auch bevor sie Daten gesendet hat (die Entities bleiben dann bis zum ersten Paket \"nicht verfügbar\"). Gesehen, aber noch nicht hinzugefügt: {pending}",
+        "data": {
+          "ip_address": "IP-Adresse"
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "Das ist keine gültige IP-Adresse."
+    }
+  }
+}

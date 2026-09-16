@@ -1,0 +1,9 @@
+{
+  "domain": "statusview",
+  "name": "EdingCNC StatusView",
+  "codeowners": [],
+  "config_flow": true,
+  "iot_class": "local_push",
+  "requirements": [],
+  "version": "0.1.0"
+}
