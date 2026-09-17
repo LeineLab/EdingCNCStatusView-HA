@@ -1,9 +1,11 @@
 {
   "domain": "statusview",
   "name": "EdingCNC StatusView",
-  "codeowners": [],
+  "codeowners": ["@soundstorm"],
   "config_flow": true,
+  "documentation": "https://github.com/LeineLab/EdingCNCStatusView-HA",
   "iot_class": "local_push",
+  "issue_tracker": "https://github.com/LeineLab/EdingCNCStatusView-HA/issues",
   "requirements": [],
   "version": "0.1.0"
 }
