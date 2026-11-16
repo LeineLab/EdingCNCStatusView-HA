@@ -190,6 +190,19 @@ class StatusViewHub:
     def is_available(self, device: StatusViewDevice) -> bool:
         return (time.monotonic() - device.last_seen) < self.timeout
 
+    @callback
+    def async_restore_device(self, ip: str) -> None:
+        """Re-create a device known from a previous run, initially disconnected.
+
+        Without this, a controller that is silent after a Home Assistant
+        restart would never get entities, and the stale registry entries would
+        show up as "unavailable" instead of the Connected sensor reading off.
+        """
+        if ip in self.devices:
+            return
+        self.devices[ip] = StatusViewDevice(ip=ip, last_seen=float("-inf"))
+        self.exposed.add(ip)
+
     @property
     def pending_ips(self) -> list[str]:
         """IPs that sent valid traffic but aren't exposed as entities yet."""

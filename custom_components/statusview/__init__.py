@@ -51,6 +51,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             f"Could not bind UDP port {port} for StatusView: {err}"
         ) from err
 
+    # Devices exposed before the restart come back as "disconnected" even if
+    # the controller stays silent, instead of lingering as "unavailable".
+    for device_entry in dr.async_entries_for_config_entry(
+        dr.async_get(hass), entry.entry_id
+    ):
+        for domain, ip in device_entry.identifiers:
+            if domain == DOMAIN:
+                hub.async_restore_device(ip)
+
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = hub
 
     entry.async_on_unload(
